@@ -88,11 +88,7 @@ pub fn execute(
             round,
             exchange_rate,
         } => execute_finalize_bidding_round_result(deps, env, info, round, exchange_rate),
-        ExecuteMsg::Distribute {
-            round,
-            start_after,
-            limit,
-        } => execute_distribute(deps, round, start_after, limit),
+        ExecuteMsg::Distribute { round } => execute_distribute(deps, round),
         ExecuteMsg::SubmitBid {
             round,
             premium_slot,
