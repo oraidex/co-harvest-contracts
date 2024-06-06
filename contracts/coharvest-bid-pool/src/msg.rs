@@ -41,8 +41,6 @@ pub enum ExecuteMsg {
     },
     Distribute {
         round: u64,
-        start_after: Option<u64>,
-        limit: Option<u64>,
     },
     SubmitBid {
         round: u64,

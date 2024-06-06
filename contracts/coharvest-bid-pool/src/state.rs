@@ -142,6 +142,21 @@ pub fn read_bids_by_round(
         .collect()
 }
 
+pub fn read_all_bids_in_round(
+    storage: &dyn Storage,
+    round: u64,
+    order_by: Option<i32>,
+) -> StdResult<Vec<u64>> {
+    let order_by = order_by.map_or(Order::Ascending, |val| match val {
+        2 => Order::Descending,
+        _ => Order::Ascending,
+    });
+
+    BIDS_BY_ROUND
+        .prefix(round)
+        .keys(storage, None, None, order_by)
+        .collect()
+}
 pub fn count_number_bids_in_round(storage: &dyn Storage, round: u64) -> u64 {
     BIDS_BY_ROUND
         .prefix(round)

@@ -105,6 +105,7 @@ fn test_create_new_round() {
                 "end_time",
                 env.block.time.plus_seconds(1000).seconds().to_string()
             ),
+            attr("reward", Uint128::from(20000_000000u128)),
             attr("created_by", "owner"),
         ]
     );
@@ -191,6 +192,7 @@ fn test_create_new_round_by_treasury() {
                 "end_time",
                 env.block.time.plus_seconds(86401).seconds().to_string()
             ),
+            attr("reward", Uint128::one()),
             attr("created_by", "treasury"),
         ]
     );
@@ -949,11 +951,7 @@ fn test_distribute() {
     .unwrap();
     assert_eq!(num_bids_in_round, 25);
 
-    let msg = ExecuteMsg::Distribute {
-        round: 1,
-        start_after: None,
-        limit: None,
-    };
+    let msg = ExecuteMsg::Distribute { round: 1 };
     let res = execute(
         deps.as_mut(),
         env.clone(),
@@ -1033,11 +1031,7 @@ fn test_distribute() {
     .unwrap();
     assert_eq!(num_bids_in_round, 25);
 
-    let msg = ExecuteMsg::Distribute {
-        round: 2,
-        start_after: None,
-        limit: None,
-    };
+    let msg = ExecuteMsg::Distribute { round: 2 };
     let res = execute(
         deps.as_mut(),
         env.clone(),

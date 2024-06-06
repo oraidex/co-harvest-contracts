@@ -9,7 +9,7 @@ use crate::{
     error::ContractError,
     helper::into_cosmos_msg,
     state::{
-        pop_bid_idx, read_bids_by_round, read_or_create_bid_pool, store_bid, Bid, BidPool,
+        pop_bid_idx, read_all_bids_in_round, read_or_create_bid_pool, store_bid, Bid, BidPool,
         BiddingInfo, DistributionInfo, BID, BIDDING_INFO, BID_POOL, CONFIG, DISTRIBUTION_INFO,
         LAST_ROUND_ID,
     },
@@ -125,6 +125,7 @@ fn process_create_new_round(
         ("round", &last_round.to_string()),
         ("start_time", &start_time.to_string()),
         ("end_time", &end_time.to_string()),
+        ("reward", &total_distribution.to_string()),
     ]))
 }
 
@@ -363,12 +364,7 @@ pub fn execute_finalize_bidding_round_result(
 }
 
 // after bidding round finalized, call this function to send the allocated tokens to all bidder, and if the bid still has bid token, transfer back to the bidder
-pub fn execute_distribute(
-    deps: DepsMut,
-    round: u64,
-    start_after: Option<u64>,
-    limit: Option<u64>,
-) -> Result<Response, ContractError> {
+pub fn execute_distribute(deps: DepsMut, round: u64) -> Result<Response, ContractError> {
     let config = CONFIG.load(deps.storage)?;
     let mut distribution_info = DISTRIBUTION_INFO.load(deps.storage, round)?;
 
@@ -388,7 +384,7 @@ pub fn execute_distribute(
     }
 
     // load all bid in round
-    let bids_idx = read_bids_by_round(deps.storage, round, start_after, limit, None)?;
+    let bids_idx = read_all_bids_in_round(deps.storage, round, None)?;
     let mut msgs: Vec<CosmosMsg> = vec![];
 
     for idx in bids_idx {
