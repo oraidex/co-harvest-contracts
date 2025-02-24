@@ -20,7 +20,7 @@ library = []
 cosmwasm-schema = "1.5.0"
 cw2 = "1.0.1"
 cw20 = "1.0.1"
-cosmwasm-std = { version = "1.5.0" }
+cosmwasm-std = { version = "1.5.4" }
 cw-storage-plus = "1.0.1"
 cw-controllers = "1.0.1"
 thiserror = { version = "1.0.23" }
