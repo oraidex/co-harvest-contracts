@@ -26,4 +26,4 @@ cw-controllers = "1.0.1"
 thiserror = { version = "1.0.23" }
 oraiswap = "1.0.1"
 cw-utils = "0.16.0"
-protobuf = "=3.2.0"
+protobuf = "=3.7.2"
